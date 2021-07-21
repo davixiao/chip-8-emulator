@@ -44,6 +44,10 @@ CPU::CPU()
   }
 }
 
+/**
+ * debugging method
+ * Outputs values and their memory locations
+ */
 void CPU::PrintMemory() {
   for (unsigned int i = 0; i < MEMORY_SZ - 1; i+=2) {
     if (memory[i]) {
