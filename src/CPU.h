@@ -25,6 +25,9 @@ class CPU {
     uint8_t registers[NUM_REGISTERS] {};
     uint8_t stack[STACK_SZ] {};
 
+    uint8_t keyinput[NUM_KEYS] {};
+    uint32_t videoOutput[VID_WIDTH * VID_HEIGHT] {};
+
     uint8_t delay_timer {};
     uint8_t audio_timer {};
 
