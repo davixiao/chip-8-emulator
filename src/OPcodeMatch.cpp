@@ -360,11 +360,111 @@ void CPU::OP_Fx65() {
  * Switch statement that matches an opcode with its corresponding 
  * method handler
  */
+void CPU::match_8opcodes(uint16_t opcode) {
+  uint8_t endNibble = (opcode & 0x000Fu);
+  switch (endNibble) {
+    case 0x0:
+      CPU::OP_8xy0();
+      break;
+    case 0x1:
+      CPU::OP_8xy1();
+      break;
+    case 0x2:
+      CPU::OP_8xy2();
+      break;
+    case 0x3:
+      CPU::OP_8xy3();
+      break;
+    case 0x4:
+      CPU::OP_8xy4();
+      break;
+    case 0x5:
+      CPU::OP_8xy5();
+      break;
+    case 0x6:
+      CPU::OP_8xy6();
+      break;
+    case 0x7:
+      CPU::OP_8xy7();
+      break;
+    case 0xE:
+      CPU::OP_8xyE();
+      break;
+    default:
+      CPU::OP_NULL();
+      break;
+  }
+}
+void CPU::match_0opcodes(uint16_t opcode) {
+  uint8_t endNibble = (opcode & 0x000Fu);
+  switch (endNibble) {
+    case 0x0:
+      CPU::OP_00E0();
+      break;
+    case 0xE:
+      CPU::OP_00EE();
+      break;
+    default:
+      CPU::OP_NULL();
+      break;
+  }
+}
+void CPU::match_Eopcodes(uint16_t opcode) {
+    uint8_t lastTwoNibbles = (opcode & 0x00FFu);
+    switch (lastTwoNibbles) {
+      case 0xA1:
+        CPU::OP_ExA1();
+        break;
+      case 0x9E:
+        CPU::OP_Ex9E();
+        break;
+      default:
+        CPU::OP_NULL();
+        break;
+    }
+}
+void CPU::match_Fopcodes(uint16_t opcode) {
+  uint8_t lastTwoNibbles = (opcode & 0x00FFu);
+  switch (lastTwoNibbles) {
+    case 0x07:
+      CPU::OP_Fx07();
+      break;
+    case 0x0A:
+      CPU::OP_Fx0A();
+      break;
+    case 0x15:
+      CPU::OP_Fx15();
+      break;
+    case 0x18:
+      CPU::OP_Fx18();
+      break;
+    case 0x1E:
+      CPU::OP_Fx1E();
+      break;
+    case 0x29:
+      CPU::OP_Fx29();
+      break;
+    case 0x33:
+      CPU::OP_Fx33();
+      break;
+    case 0x55:
+      CPU::OP_Fx55();
+      break;
+    case 0x65:
+      CPU::OP_Fx65();
+      break;
+    default:
+      CPU::OP_NULL();
+      break;
+  }
+}
+
 void CPU::match_opcodes(uint16_t opcode) {
   std::cout << opcode << "\n";
-  int frontNibble = (opcode & 0xF000u) >> 12u;
+  uint8_t frontNibble = (opcode & 0xF000u) >> 12u;
   switch (frontNibble) {
     case 0x0: 
+      CPU::match_0opcodes(opcode);
       break;
     case 0x1: 
       CPU::OP_1nnn();
@@ -388,6 +488,7 @@ void CPU::match_opcodes(uint16_t opcode) {
       CPU::OP_7xkk();
       break;
     case 0x8:
+      CPU::match_8opcodes(opcode);
       break;
     case 0x9:
       CPU::OP_9xy0();
@@ -405,6 +506,10 @@ void CPU::match_opcodes(uint16_t opcode) {
       CPU::OP_Dxyn();
       break;
     case 0xE:
+      CPU::match_Eopcodes(opcode);
+      break;
+    case 0xF:
+      CPU::match_Fopcodes(opcode);
       break;
     default:
       CPU::OP_NULL();

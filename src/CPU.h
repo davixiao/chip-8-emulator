@@ -41,6 +41,10 @@ class CPU {
 
     // OPcode method matcher
     void match_opcodes(uint16_t opcode);
+    void match_8opcodes(uint16_t opcode);
+    void match_0opcodes(uint16_t opcode);
+    void match_Eopcodes(uint16_t opcode);
+    void match_Fopcodes(uint16_t opcode);
     
     // OPcode handlers
     void OP_NULL();     // Do nothing
