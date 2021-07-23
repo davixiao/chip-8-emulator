@@ -34,7 +34,7 @@ class CPU {
     uint16_t pc {}; // Program counter for memory
     uint8_t sp {}; // Stack pointer
     uint16_t index {}; // Stores data to be used in an operation
-    uint16_t opcode {};
+    uint16_t opcode {}; // Stores the current instruction read
     
     std::default_random_engine gen_rand;
 	  std::uniform_int_distribution<uint8_t> rand_byte;

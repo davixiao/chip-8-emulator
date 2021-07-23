@@ -362,4 +362,51 @@ void CPU::OP_Fx65() {
  */
 void CPU::match_opcodes(uint16_t opcode) {
   std::cout << opcode << "\n";
+  int frontNibble = (opcode & 0xF000u) >> 12u;
+  switch (frontNibble) {
+    case 0x0: 
+      break;
+    case 0x1: 
+      CPU::OP_1nnn();
+      break;
+    case 0x2:
+      CPU::OP_2nnn();
+      break;
+    case 0x3:
+      CPU::OP_3xkk();
+      break;
+    case 0x4:
+      CPU::OP_4xkk();
+      break;
+    case 0x5:
+      CPU::OP_5xy0();
+      break;
+    case 0x6:
+      CPU::OP_6xkk();
+      break;
+    case 0x7:
+      CPU::OP_7xkk();
+      break;
+    case 0x8:
+      break;
+    case 0x9:
+      CPU::OP_9xy0();
+      break;
+    case 0xA:
+      CPU::OP_Annn();
+      break;
+    case 0xB:
+      CPU::OP_Bnnn();
+      break;
+    case 0xC:
+      CPU::OP_Cxkk();
+      break;
+    case 0xD:
+      CPU::OP_Dxyn();
+      break;
+    case 0xE:
+      break;
+    default:
+      CPU::OP_NULL();
+  }
 }
