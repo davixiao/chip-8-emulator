@@ -9,6 +9,7 @@
 
 // Null Opcode
 void CPU::OP_NULL() {
+  std::cout << "RAN FOR: " << std::hex << opcode << "\n";
   return;
 }
 
@@ -139,7 +140,7 @@ void CPU::OP_8xy4() {
 	uint8_t Vy = (opcode & 0x00F0u) >> 4u;
 	uint16_t sum = registers[Vx] + registers[Vy];
   
-  registers[0xFu] = sum > 255U ? 1 : 0; // set overflow flag
+  registers[0xF] = sum > 255U ? 1 : 0; // set overflow flag
   registers[Vx] = (sum & 0xFFu); // get 2 nibbles
 }
 
@@ -151,7 +152,7 @@ void CPU::OP_8xy5() {
 	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
 	uint8_t Vy = (opcode & 0x00F0u) >> 4u;
   
-  registers[0xFu] = registers[Vx] > registers[Vy] ? 1 : 0; // set flag
+  registers[0xF] = registers[Vx] > registers[Vy] ? 1 : 0; // set flag
   registers[Vx] -= registers[Vy]; 
 }
 
@@ -174,7 +175,7 @@ void CPU::OP_8xy7() {
 	uint8_t Vx = (opcode & 0x0F00u) >> 8u;
 	uint8_t Vy = (opcode & 0x00F0u) >> 4u;
   
-  registers[0xFu] = registers[Vy] > registers[Vx] ? 1 : 0; // set flag
+  registers[0xF] = registers[Vy] > registers[Vx] ? 1 : 0; // set flag
   registers[Vx] = registers[Vy] - registers[Vx]; 
 }
 
@@ -233,7 +234,7 @@ void CPU::OP_Dxyn() {
   // wrap when overflows screen
   uint8_t xPos = registers[Vx] % VID_WIDTH;
 	uint8_t yPos = registers[Vy] % VID_HEIGHT;
-  std::cout << std::hex << +registers[Vx] << " " << +registers[Vy] << "\n";
+  //std::cout << std::hex << +registers[Vx] << " " << +registers[Vy] << "\n";
   // default no collision
   registers[0xFu] = 0;
   for (unsigned int row = 0; row < height; ++row) {
@@ -363,6 +364,8 @@ void CPU::OP_Fx65() {
  */
 void CPU::match_8opcodes() {
   uint8_t endNibble = (opcode & 0x000Fu);
+      // std::cout << std::hex << opcode << " End " << +endNibble << "\n";
+
   switch (endNibble) {
     case 0x0:
       CPU::OP_8xy0();
@@ -398,6 +401,7 @@ void CPU::match_8opcodes() {
 }
 void CPU::match_0opcodes() {
   uint8_t endNibble = (opcode & 0x000Fu);
+    // std::cout << std::hex << opcode << " End " << +endNibble << "\n";
   switch (endNibble) {
     case 0x0:
       CPU::OP_00E0();
@@ -412,6 +416,7 @@ void CPU::match_0opcodes() {
 }
 void CPU::match_Eopcodes() {
     uint8_t lastTwoNibbles = (opcode & 0x00FFu);
+      // std::cout << std::hex << opcode << " LASTTWO " << +lastTwoNibbles << "\n";
     switch (lastTwoNibbles) {
       case 0xA1:
         CPU::OP_ExA1();
@@ -426,6 +431,7 @@ void CPU::match_Eopcodes() {
 }
 void CPU::match_Fopcodes() {
   uint8_t lastTwoNibbles = (opcode & 0x00FFu);
+  // std::cout << std::hex << opcode << " LASTTWO " << +lastTwoNibbles << "\n";
   switch (lastTwoNibbles) {
     case 0x07:
       CPU::OP_Fx07();
@@ -462,6 +468,7 @@ void CPU::match_Fopcodes() {
 
 void CPU::match_opcodes() {
   uint8_t frontNibble = (opcode & 0xF000u) >> 12u;
+  // std::cout << std::hex << opcode << " MAIN " << +frontNibble << "\n";
   switch (frontNibble) {
     case 0x0: 
       CPU::match_0opcodes();

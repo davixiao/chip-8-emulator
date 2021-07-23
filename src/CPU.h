@@ -25,7 +25,7 @@ class CPU {
     // CPU Variables
     uint8_t memory[MEMORY_SZ] {};
     uint8_t registers[NUM_REGISTERS] {};
-    uint8_t stack[STACK_SZ] {};
+    uint16_t stack[STACK_SZ] {};
 
     uint8_t delay_timer {};
     uint8_t audio_timer {};

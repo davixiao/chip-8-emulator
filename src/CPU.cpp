@@ -44,21 +44,6 @@ CPU::CPU()
   }
 }
 
-void CPU::Cycle() {
-  // get opcode from memory
-  opcode = (memory[pc] << 8u) | memory[pc + 1];
-  // std::cout << std::hex << opcode << "\n";
-  // set pc to next instruction
-  pc += 2;
-
-  // execute instruction
-  CPU::match_opcodes();
-
-  // Decrement timers
-  if (delay_timer) --delay_timer;
-  if (audio_timer) --audio_timer;
-}
-
 void CPU::LoadROM(char const* filename) {
 	std::ifstream file(filename, std::ios::binary | std::ios::ate);
 
@@ -69,16 +54,33 @@ void CPU::LoadROM(char const* filename) {
 		file.seekg(0, std::ios::beg);
 		file.read(buffer, size);
 		file.close();
-
+    //     std::cout << "size: " << size << "\n";
+    // std::cout << std::hex << "start " << INIT_PC_POS << "\n";
 		for (long i = 0; i < size; ++i)
 		{
 			memory[INIT_PC_POS + i] = buffer[i];
+      // std::cout << "stored at: " << +i << "\n";
+      // std::cout << std::hex << +int(memory[INIT_PC_POS + i]) << "\n";
 		}
 
 		delete[] buffer;
 	}
 }
 
+void CPU::Cycle() {
+  // get opcode from memory
+  opcode = (memory[pc] << 8u) | memory[pc + 1];
+
+  // set pc to next instruction
+  pc += 2;
+
+  // execute instruction
+  CPU::match_opcodes();
+
+  // Decrement timers
+  if (delay_timer) --delay_timer;
+  if (audio_timer) --audio_timer;
+}
 
 /**
  * debugging method
