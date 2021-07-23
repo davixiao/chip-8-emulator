@@ -25,7 +25,7 @@ class CPU {
     uint8_t registers[NUM_REGISTERS] {};
     uint8_t stack[STACK_SZ] {};
 
-    uint8_t keyinput[NUM_KEYS] {};
+    uint8_t keyInput[NUM_KEYS] {};
     uint32_t videoOutput[VID_WIDTH * VID_HEIGHT] {};
 
     uint8_t delay_timer {};
@@ -33,7 +33,7 @@ class CPU {
 
     uint16_t pc {}; // Program counter for memory
     uint8_t sp {}; // Stack pointer
-    uint16_t index {};
+    uint16_t index {}; // Stores data to be used in an operation
     uint16_t opcode {};
     
     std::default_random_engine gen_rand;

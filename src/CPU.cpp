@@ -51,7 +51,38 @@ CPU::CPU()
 void CPU::PrintMemory() {
   for (unsigned int i = 0; i < MEMORY_SZ - 1; i+=2) {
     if (memory[i]) {
+      // opcodes are 16 bit but each memory 
+      // slot is 8 bit. We need to use 2 slots.
+      // for hex 9842 it is split into 98 in
+      /**
+       * the first slot and 42 in the second. In
+       * binary that is:
+       * 
+       * 98 Hex: 1001 1000
+       * 42 Hex: 0100 0010
+       * 
+       * We then shift the 98 since it should
+       * be in front
+       * 
+       * 1001 1000 0000 0000
+       * OR to combine
+       * 1001 1000 0000 0000 | 0100 0010
+       * 1001 1000 0100 0010
+       * 
+       * when translated back to hex is: 9842
+       */
       int lol = (memory[i] << 8u) | memory[i + 1];
+      /**
+       * 0F000 hex
+       * 1111 0000 0000 0000
+       * and with this will return the first 
+       * the first nibble (4 bits) is returned.
+       * so from 9842, we get 9000
+       * 1001 0000 0000 0000
+       * shift it right by 12 bits
+       * 0000 0000 0000 1001
+       * we get 9.
+       */
       int troll = (lol & 0xF000u) >> 12u;
       std::cout << i << " " << troll << "\n";
     }
