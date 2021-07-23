@@ -5,6 +5,7 @@
 #include <cstdint>
 #include <string.h>
 #include <iostream>
+#include <iomanip>
 
 // Null Opcode
 void CPU::OP_NULL() {
@@ -232,7 +233,7 @@ void CPU::OP_Dxyn() {
   // wrap when overflows screen
   uint8_t xPos = registers[Vx] % VID_WIDTH;
 	uint8_t yPos = registers[Vy] % VID_HEIGHT;
-
+  std::cout << std::hex << +registers[Vx] << " " << +registers[Vy] << "\n";
   // default no collision
   registers[0xFu] = 0;
   for (unsigned int row = 0; row < height; ++row) {
@@ -360,7 +361,7 @@ void CPU::OP_Fx65() {
  * Switch statement that matches an opcode with its corresponding 
  * method handler
  */
-void CPU::match_8opcodes(uint16_t opcode) {
+void CPU::match_8opcodes() {
   uint8_t endNibble = (opcode & 0x000Fu);
   switch (endNibble) {
     case 0x0:
@@ -395,7 +396,7 @@ void CPU::match_8opcodes(uint16_t opcode) {
       break;
   }
 }
-void CPU::match_0opcodes(uint16_t opcode) {
+void CPU::match_0opcodes() {
   uint8_t endNibble = (opcode & 0x000Fu);
   switch (endNibble) {
     case 0x0:
@@ -409,7 +410,7 @@ void CPU::match_0opcodes(uint16_t opcode) {
       break;
   }
 }
-void CPU::match_Eopcodes(uint16_t opcode) {
+void CPU::match_Eopcodes() {
     uint8_t lastTwoNibbles = (opcode & 0x00FFu);
     switch (lastTwoNibbles) {
       case 0xA1:
@@ -423,7 +424,7 @@ void CPU::match_Eopcodes(uint16_t opcode) {
         break;
     }
 }
-void CPU::match_Fopcodes(uint16_t opcode) {
+void CPU::match_Fopcodes() {
   uint8_t lastTwoNibbles = (opcode & 0x00FFu);
   switch (lastTwoNibbles) {
     case 0x07:
@@ -459,12 +460,11 @@ void CPU::match_Fopcodes(uint16_t opcode) {
   }
 }
 
-void CPU::match_opcodes(uint16_t opcode) {
-  std::cout << opcode << "\n";
+void CPU::match_opcodes() {
   uint8_t frontNibble = (opcode & 0xF000u) >> 12u;
   switch (frontNibble) {
     case 0x0: 
-      CPU::match_0opcodes(opcode);
+      CPU::match_0opcodes();
       break;
     case 0x1: 
       CPU::OP_1nnn();
@@ -488,7 +488,7 @@ void CPU::match_opcodes(uint16_t opcode) {
       CPU::OP_7xkk();
       break;
     case 0x8:
-      CPU::match_8opcodes(opcode);
+      CPU::match_8opcodes();
       break;
     case 0x9:
       CPU::OP_9xy0();
@@ -506,10 +506,10 @@ void CPU::match_opcodes(uint16_t opcode) {
       CPU::OP_Dxyn();
       break;
     case 0xE:
-      CPU::match_Eopcodes(opcode);
+      CPU::match_Eopcodes();
       break;
     case 0xF:
-      CPU::match_Fopcodes(opcode);
+      CPU::match_Fopcodes();
       break;
     default:
       CPU::OP_NULL();

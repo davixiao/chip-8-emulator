@@ -5,7 +5,7 @@
 #include <fstream>
 #include <random>
 #include <iostream>
-
+#include <iomanip>
 // Store initial position for pc
 constexpr unsigned int INIT_PC_POS = 0x200;
 
@@ -43,6 +43,42 @@ CPU::CPU()
     memory[INIT_FONT_POS + i] = fonts[i];
   }
 }
+
+void CPU::Cycle() {
+  // get opcode from memory
+  opcode = (memory[pc] << 8u) | memory[pc + 1];
+  // std::cout << std::hex << opcode << "\n";
+  // set pc to next instruction
+  pc += 2;
+
+  // execute instruction
+  CPU::match_opcodes();
+
+  // Decrement timers
+  if (delay_timer) --delay_timer;
+  if (audio_timer) --audio_timer;
+}
+
+void CPU::LoadROM(char const* filename) {
+	std::ifstream file(filename, std::ios::binary | std::ios::ate);
+
+	if (file.is_open())
+	{
+		std::streampos size = file.tellg();
+		char* buffer = new char[size];
+		file.seekg(0, std::ios::beg);
+		file.read(buffer, size);
+		file.close();
+
+		for (long i = 0; i < size; ++i)
+		{
+			memory[INIT_PC_POS + i] = buffer[i];
+		}
+
+		delete[] buffer;
+	}
+}
+
 
 /**
  * debugging method
@@ -84,7 +120,7 @@ void CPU::PrintMemory() {
        * we get 9.
        */
       int troll = (lol & 0xF000u) >> 12u;
-      std::cout << i << " " << troll << "\n";
+      //std::cout << i << " " << troll << "\n";
     }
   }
 }

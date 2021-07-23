@@ -10,23 +10,22 @@ class CPU {
     void LoadROM(char const* file);
     void Cycle();
     void PrintMemory();
+
+    static constexpr unsigned int VID_HEIGHT {32};
+    static constexpr unsigned int VID_WIDTH {64};
+    static constexpr unsigned int NUM_KEYS {16};
+    uint8_t keyInput[NUM_KEYS] {};
+    uint32_t videoOutput[VID_WIDTH * VID_HEIGHT] {};
   private:
     // Class Constants
     static constexpr unsigned int MEMORY_SZ {4096};
     static constexpr unsigned int STACK_SZ {16};
     static constexpr unsigned int NUM_REGISTERS {16};
 
-    static constexpr unsigned int VID_HEIGHT {16};
-    static constexpr unsigned int VID_WIDTH {16};
-    static constexpr unsigned int NUM_KEYS {16};
-
     // CPU Variables
     uint8_t memory[MEMORY_SZ] {};
     uint8_t registers[NUM_REGISTERS] {};
     uint8_t stack[STACK_SZ] {};
-
-    uint8_t keyInput[NUM_KEYS] {};
-    uint32_t videoOutput[VID_WIDTH * VID_HEIGHT] {};
 
     uint8_t delay_timer {};
     uint8_t audio_timer {};
@@ -40,11 +39,11 @@ class CPU {
 	  std::uniform_int_distribution<uint8_t> rand_byte;
 
     // OPcode method matcher
-    void match_opcodes(uint16_t opcode);
-    void match_8opcodes(uint16_t opcode);
-    void match_0opcodes(uint16_t opcode);
-    void match_Eopcodes(uint16_t opcode);
-    void match_Fopcodes(uint16_t opcode);
+    void match_opcodes();
+    void match_8opcodes();
+    void match_0opcodes();
+    void match_Eopcodes();
+    void match_Fopcodes();
     
     // OPcode handlers
     void OP_NULL();     // Do nothing
