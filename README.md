@@ -14,19 +14,19 @@ My goal for this project was to build off of the knowledge I gained about writin
 # How to run
 **SDL2** is used for graphics
 ```
-$ sudo apt-get install libsdl2-dev
+sudo apt-get install libsdl2-dev
 ```
 There are various methods of compiling. Ensure that all files in the **src** folder are included. 
 ```
-$ g++ -Isrc/Include -Lsrc/lib -o chip8 *.cpp -lSDL2main -lSDL2
+g++ -Isrc/Include -Lsrc/lib -o chip8 *.cpp -lSDL2main -lSDL2
 ```
 There are a few parameters to include in order to run. The first is the video scale (CHIP8 is normally 64x32). Second is the CPU delay between cycles (in miliseconds). Last is the ROM file. Below are a few examples with recommended parameters:
 ```
-$ ./chip8 10 1 roms/BC_test.ch8
+./chip8 10 1 roms/BC_test.ch8
 
-$ ./chip8 10 3 roms/Tetris.ch8
+./chip8 10 3 roms/Tetris.ch8
 
-$ ./chip8 10 3 roms/Soccer.ch8 
+./chip8 10 3 roms/Soccer.ch8 
 ```
 # Resources
 Credits to:
