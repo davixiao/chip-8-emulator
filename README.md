@@ -4,10 +4,10 @@ This is an implementation of the CHIP-8 emulator written in C++. The CHIP-8 is a
 My goal for this project was to build off of the knowledge I gained about writing interpreters from CS146 (Elementary Algorthim Design and Data Abstraction Advanced Level).
 
 **Tetris**
-![Tetris](img/tetris.png "CHIP8 Tetris")
+![Tetris](img/tetris.PNG "CHIP8 Tetris")
 
 **Soccer**
-![Soccer](img/soccer.png "CHIP8 Soccer")
+![Soccer](img/soccer.PNG "CHIP8 Soccer")
 
 # How to run
 **SDL2** is used for graphics
