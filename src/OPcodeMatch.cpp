@@ -1,11 +1,11 @@
 /**
  * Contains opcode handlers and matcher
  */
-#include "CPU.h"
 #include <cstdint>
 #include <string.h>
 #include <iostream>
 #include <iomanip>
+#include "CPU.h"
 
 // Null Opcode
 void CPU::OP_NULL() {

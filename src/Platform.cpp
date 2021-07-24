@@ -1,9 +1,11 @@
-#include "Platform.h"
+/**
+ * Credit to Austin Morlan for Graphics Platform code
+ * https://austinmorlan.com/posts/chip8_emulator/#the-platform-layer
+ */
 #include <SDL2/SDL.h>
+#include "Platform.h"
 
-
-Platform::Platform(char const* title, int windowWidth, int windowHeight, int textureWidth, int textureHeight)
-{
+Platform::Platform(char const* title, int windowWidth, int windowHeight, int textureWidth, int textureHeight) {
 	SDL_Init(SDL_INIT_VIDEO);
 
 	window = SDL_CreateWindow(title, 0, 0, windowWidth, windowHeight, SDL_WINDOW_SHOWN);
@@ -14,24 +16,21 @@ Platform::Platform(char const* title, int windowWidth, int windowHeight, int tex
 		renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STREAMING, textureWidth, textureHeight);
 }
 
-Platform::~Platform()
-{
+Platform::~Platform() {
 	SDL_DestroyTexture(texture);
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
 }
 
-void Platform::Update(void const* buffer, int pitch)
-{
+void Platform::Update(void const* buffer, int pitch) {
 	SDL_UpdateTexture(texture, nullptr, buffer, pitch);
 	SDL_RenderClear(renderer);
 	SDL_RenderCopy(renderer, texture, nullptr, nullptr);
 	SDL_RenderPresent(renderer);
 }
 
-bool Platform::ProcessInput(uint8_t* keys)
-{
+bool Platform::ProcessInput(uint8_t* keys) {
 	bool quit = false;
 
 	SDL_Event event;

@@ -1,21 +1,20 @@
-#include "CPU.h"
-#include "Platform.h"
 #include <chrono>
 #include <iostream>
 
+#include "CPU.h"
+#include "Platform.h"
 
 int main(int argc, char** argv) {
-	if (argc != 4)
-	{
+	if (argc != 4) {
 		std::cerr << "Usage: " << argv[0] << " <Scale> <Delay> <ROM>\n";
 		std::exit(EXIT_FAILURE);
 	}
 
-	int videoScale = std::stoi(argv[1]);
-	int cycleDelay = std::stoi(argv[2]);
+	int vid_scale = std::stoi(argv[1]);
+	int cycle_delay = std::stoi(argv[2]);
 	char const* romFilename = argv[3];
 
-	Platform platform("CHIP-8 Emulator", CPU::VID_WIDTH * videoScale, CPU::VID_HEIGHT * videoScale, CPU::VID_WIDTH, CPU::VID_HEIGHT);
+	Platform platform("CHIP-8 Emulator", CPU::VID_WIDTH * vid_scale, CPU::VID_HEIGHT * vid_scale, CPU::VID_WIDTH, CPU::VID_HEIGHT);
 
 	CPU chip8;
 	chip8.LoadROM(romFilename);
@@ -30,7 +29,7 @@ int main(int argc, char** argv) {
 		auto currentTime = std::chrono::high_resolution_clock::now();
 		float dt = std::chrono::duration<float, std::chrono::milliseconds::period>(currentTime - lastCycleTime).count();
 
-		if (dt > cycleDelay)
+		if (dt > cycle_delay)
 		{
 			lastCycleTime = currentTime;
 
