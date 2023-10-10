@@ -30,5 +30,5 @@ There are a few parameters to include in order to run. The first is the video sc
 ```
 # Resources
 Credits to:
+- University of Waterloo CS146 Course Notes 
 - Austin Morlan's tutorial: https://austinmorlan.com/posts/chip8_emulator
-- CS146 Course Notes 
